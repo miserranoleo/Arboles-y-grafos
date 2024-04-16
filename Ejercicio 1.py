@@ -30,6 +30,11 @@ def decodificar_mensaje(codigo, arbol_huffman):
             nodo_actual = arbol_huffman
     return mensaje_decodificado.strip()  # Elimina el espacio al final del mensaje
 
+def reemplazar_palabras(mensaje, diccionario):
+    for palabra, significado in diccionario.items():
+        mensaje = mensaje.replace(palabra, significado)
+    return mensaje
+
 # Tabla de frecuencias y códigos de Huffman
 tabla_frecuencias = {
     "Ankh": 15,
@@ -44,6 +49,18 @@ tabla_frecuencias = {
 
 arbol_huffman = construir_arbol_huffman(tabla_frecuencias)
 
+# Diccionario de palabras y sus significados
+diccionario_significados = {
+    "Ankh": "vida",
+    "Scarab": "protección",
+    "Eye of Horus": "salud",
+    "Pyramid": "inmortalidad",
+    "Sphinx": "sabiduría",
+    "Djed": "estabilidad",
+    "Lotus": "renacimiento",
+    "Obelisk": "faraón"
+}
+
 # Mensajes codificados proporcionados
 mensaje_codificado_1 = "10001011101011000010111010001110000011011000000111100111101001011000011010011100110100010111010111111101000011110011111100111101000110001100000010110101111011111110111010110110111001110110111100111111100101001010010100000101101011000101100110100011100100101100001100100011010110101011111111111011011101110010000100101011000111111100010001110110011001011010001101111101011010001101110000000111001001010100011111100001100101101011100110011110100011000110000001011010111110011100"
 mensaje_codificado_2 = "0110101011011100101000111101011100110111010110110100001000111010100101111010011111110111001010001111010111001101110101100001100010011010001110010010001100010110011001110010010000111101111010"
@@ -52,15 +69,10 @@ mensaje_codificado_2 = "01101010110111001010001111010111001101110101101101000010
 mensaje_decodificado_1 = decodificar_mensaje(mensaje_codificado_1, arbol_huffman)
 mensaje_decodificado_2 = decodificar_mensaje(mensaje_codificado_2, arbol_huffman)
 
-# Calcular espacio de memoria necesario
-espacio_original_1 = len(mensaje_decodificado_1) * 8  # Cada caracter representa un byte (8 bits)
-espacio_comprimido_1 = len(mensaje_codificado_1)
-espacio_original_2 = len(mensaje_decodificado_2) * 8
-espacio_comprimido_2 = len(mensaje_codificado_2)
+# Reemplazar palabras por sus significados
+mensaje_decodificado_1 = reemplazar_palabras(mensaje_decodificado_1, diccionario_significados)
+mensaje_decodificado_2 = reemplazar_palabras(mensaje_decodificado_2, diccionario_significados)
 
+# Imprimir los mensajes decodificados y los espacios de memoria
 print("Mensaje decodificado 1:", mensaje_decodificado_1)
 print("Mensaje decodificado 2:", mensaje_decodificado_2)
-print("Espacio original del mensaje 1:", espacio_original_1, "bits")
-print("Espacio comprimido del mensaje 1:", espacio_comprimido_1, "bits")
-print("Espacio original del mensaje 2:", espacio_original_2, "bits")
-print("Espacio comprimido del mensaje 2:", espacio_comprimido_2, "bits")
